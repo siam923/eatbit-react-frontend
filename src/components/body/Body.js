@@ -1,7 +1,16 @@
-import React from "react";
+import { Fragment } from 'react'
+import FoodMenu from './FoodMenu';
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+
 
 function Body() {
-  return <div>Body</div>;
+  return <div>
+    <FoodMenu/>
+                  
+  </div>;
 }
 
 export default Body;
