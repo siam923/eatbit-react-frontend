@@ -4,7 +4,7 @@ function FoodMenuItem({dish, dishSelect}) {
 
   return (
     <div 
-      className="w-sm max-h-50 h-50 my-5  bg-white rounded-lg shadow-md"
+      className="sm:w-sm max-h-50 h-50 bg-white rounded-lg shadow-md "
       onClick = {dishSelect}
     >
       <div className="relative cursor-pointer">

@@ -2,52 +2,82 @@ import DISHES from '../../data/dishes';
 import FoodMenuItem from './FoodMenuItem';
 import React, { Component } from "react";
 import DishDetail from './DishDetail';
+import { Dialog } from '@headlessui/react';
+import COMMENTS from './../../data/comments';
 
 export default class FoodMenu extends Component {
 
   state = {
     dishes: DISHES,
+    comments: COMMENTS,
     selectedDish: null,
+    isOpen: false,
   }
 
   onDishSelect = dish => {
-    this.setState({ selectedDish: dish });
+    this.setState({ selectedDish: dish, isOpen:true});
   }
 
+  closeModal = () => {
+    this.setState({ selectedDish: null , isOpen:false});
+  }
 
   render() {
+      document.title = 'Foods';
       const menu = this.state.dishes.map(item => {
       return <FoodMenuItem 
                 key={item.id} 
                 dish={item} 
-                dishSelect={() => this.onDishSelect(item)}  
+                dishSelect={() => this.onDishSelect(item)}
               />
     }); 
 
     let dishDetail = null;
     if(this.state.selectedDish != null) {
-      dishDetail = <DishDetail dish={this.state.selectedDish} />
+      const comments = this.state.comments.filter(comment => {
+        return comment.dishId === this.state.selectedDish.id;
+      })
+      dishDetail = <DishDetail dish={this.state.selectedDish} comments={comments}/>
     }
 
     return (
-      <>
+      <div className=' '>
         {/* Food menu details */}
-        <div className='mx-auto my-5 sm:flex max-w-screen-xl '>
-          <div 
-            className='w-full sm:w-1/2 flex flex-col px-10 '
-          >
-            {menu}
-          </div>
-
-          <div 
-            className='w-1/2 sm:flex mx-auto px-10'
-          >
-            {dishDetail} 
-          </div>
-          
+        <div className="mx-auto p-10 
+          sm:grid sm:grid-cols-2 lg:grid-cols-3 max-w-screen-xl gap-x-4 gap-y-6 items-center justify-center"
+        >
+          {menu}
         </div>
-        {/* end food menu */}
-      </>
+
+        {/* food details overlay modal */}
+        
+          <Dialog open={this.state.isOpen} as="div" className="relative z-10" onClose={this.closeModal}>
+            
+            {/* makes background color black with opacity 25 */}
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+
+            <div className="fixed inset-0 overflow-y-auto">
+              <div className="flex min-h-full items-center justify-center p-4 text-center">
+                
+                  <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                    {dishDetail}
+
+                    <div className="mt-4">
+                      <button
+                        type="button"
+                        className="inline-flex justify-center rounded-md  border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        onClick={this.closeModal}
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </Dialog.Panel>
+            
+              </div>
+            </div>
+          </Dialog>
+        {/* </Transition> */}
+      </div>
   );}
 }
 

@@ -1,21 +1,34 @@
-import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import { Disclosure } from '@headlessui/react'
+import { MenuIcon, XIcon } from '@heroicons/react/outline'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
-const navigation = [
-    { name: 'Dashboard', href: '#', current: true },
-    { name: 'Team', href: '#', current: false },
-    { name: 'Projects', href: '#', current: false },
-    { name: 'Calendar', href: '#', current: false },
-  ]
-  
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
   
 
 function Navigation() {
-  
+    const [state, setState] = useState([
+      { name: 'Home', href: '/', current: true },
+      { name: 'Menu', href: '/menu', current: false },
+      { name: 'About', href: '/about', current: false },
+      { name: 'Contact', href: '/contact', current: false },
+      { name: 'Ragistration', href: '/reg', current: false },
+    ])
+
+    let onClickHandle = (toChange) => {
+      let newState = JSON.parse(JSON.stringify(state))
+      newState.map(item => {
+        if( item.name === toChange ){
+          item.current = true
+        } else {
+          item.current = false 
+        }
+        setState(newState);
+      })
+    } 
+
     return <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
         <>
@@ -45,10 +58,11 @@ function Navigation() {
                 {/* Desktop nav items hidden on small breakpoint */}
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <a
+                    {state.map((item) => (
+                      <Link 
+                        to={item.href}
                         key={item.name}
-                        href={item.href}
+                        onClick={() => onClickHandle(item.name)}
                         className={classNames(
                           item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'px-3 py-2 rounded-md text-sm font-medium'
@@ -56,7 +70,8 @@ function Navigation() {
                         aria-current={item.current ? 'page' : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
+                      // <p>{item.name}</p>
                     ))}
                   </div>
                 </div>
@@ -69,11 +84,12 @@ function Navigation() {
           {/* Mobile menu panel or nav items */}
           <Disclosure.Panel className="sm:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              {navigation.map((item) => (
+              {state.map((item) => (
                 <Disclosure.Button
                   key={item.name}
-                  as="a"
-                  href={item.href}
+                  as={Link}
+                  to={item.href}
+                  onClick={onClickHandle}
                   className={classNames(
                     item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'block px-3 py-2 rounded-md text-base font-medium'

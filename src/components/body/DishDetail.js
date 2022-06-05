@@ -1,7 +1,8 @@
+import LoadComments from "./LoadComments";
 
-function DishDetail({dish}) {
+function DishDetail({dish, comments}) {
   return <>
-    <div className="bg-white h-min rounded-sm shadow-md my-5 p-10">
+    <div className=" h-min ">
         <img className="max-h-80 w-full aspect-auto rounded-sm" src={dish.image}/>
         <div className="mt-5">
             <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">{dish.name}</h1>
@@ -15,7 +16,11 @@ function DishDetail({dish}) {
                 <p className="text-base text-gray-900">{dish.description}</p>
               </div>
         </div>
+        <hr />
 
+        <LoadComments
+            comments={comments}
+        />
     </div>
   </>;
 }

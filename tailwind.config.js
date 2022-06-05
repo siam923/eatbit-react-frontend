@@ -12,5 +12,7 @@ module.exports = {
       'body': ['"Open Sans"', 'Helvetica'],
     },
   },
-  plugins: [],
+  plugins: [
+    
+  ],
 }

@@ -4,9 +4,11 @@ import Header from './header/Header';
 import Footer from './footer/Footer';
 
 const MainComponent = () => {
-  return <div>
+  return <div className="flex flex-col h-screen">
       <Header/>
-      <Body/>
+      <div  className='flex-grow'>
+        <Body/>
+      </div>
       <Footer/>
   </div>;
 }
