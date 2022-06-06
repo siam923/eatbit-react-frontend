@@ -18,3 +18,5 @@ export const dishSlice = createSlice({
 
 export const {hello} = dishSlice.actions
 export default dishSlice.reducer;
+
+export const selectAlldishes = (state) => state.dishes;

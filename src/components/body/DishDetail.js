@@ -1,3 +1,4 @@
+import CommentForm from "./CommentForm";
 import LoadComments from "./LoadComments";
 
 function DishDetail({dish, comments}) {
@@ -9,7 +10,7 @@ function DishDetail({dish, comments}) {
             <h2 className="text-3xl text-gray-900 my-3">Price: {dish.price}</h2>
         </div>
         
-        <div>
+        <div className="mb-2">
               <h3 className="sr-only">Description</h3>
 
               <div className="space-y-6">
@@ -21,6 +22,9 @@ function DishDetail({dish, comments}) {
         <LoadComments
             comments={comments}
         />
+
+        <hr/>
+        <CommentForm dishId={dish.id}/>
     </div>
   </>;
 }

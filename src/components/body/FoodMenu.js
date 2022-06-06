@@ -4,11 +4,12 @@ import { useState } from "react";
 import DishDetail from './DishDetail';
 import FoodMenuItem from './FoodMenuItem';
 import { Dialog } from '@headlessui/react';
+import { selectAlldishes } from "../../features/dish/dishSlice";
 
 
 function FoodMenu() {
   document.title = 'FoodMenu';
-  const dishes = useSelector((state) => state.dish.dishes)
+  const dishes = useSelector((state) => selectAlldishes(state.dish))
   const comments = useSelector((state) => state.comment.comments)
   const [selectedDish, setSelectedDish] = useState(null)
   const [isOpen, setIsOpen ] = useState(false)

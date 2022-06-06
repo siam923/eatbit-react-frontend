@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-function FormInput({label, errorMessage, onChange, id, ...inputProps}) {
+function FormInput({label, errorMessage, onChange, ...inputProps}) {
     const [focused, setFocused] = useState(false);
 
     const handleFocus = e => {

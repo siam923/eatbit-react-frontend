@@ -8,6 +8,7 @@ function LoadComments({comments}){
                 <div className='mt-3' key={comment.id}>
                     <h1 className="font-bold">{comment.author}:</h1>
                     <p>{comment.comment}</p>
+                    <p>Rating: {comment.rating}</p>
                     <p>{dateFormat(comment.date, "dddd, mmmm dS, yyyy, h:MM TT")}</p>
                 </div>
             )
