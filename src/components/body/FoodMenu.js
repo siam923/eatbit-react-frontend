@@ -1,43 +1,45 @@
-import DISHES from '../../data/dishes';
-import FoodMenuItem from './FoodMenuItem';
-import React, { Component } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 import DishDetail from './DishDetail';
+import FoodMenuItem from './FoodMenuItem';
 import { Dialog } from '@headlessui/react';
-import COMMENTS from './../../data/comments';
 
-export default class FoodMenu extends Component {
 
-  state = {
-    dishes: DISHES,
-    comments: COMMENTS,
-    selectedDish: null,
-    isOpen: false,
+function FoodMenu() {
+  document.title = 'FoodMenu';
+  const dishes = useSelector((state) => state.dish.dishes)
+  const comments = useSelector((state) => state.comment.comments)
+  const [selectedDish, setSelectedDish] = useState(null)
+  const [isOpen, setIsOpen ] = useState(false)
+  
+  
+  const onDishSelect = dish => {
+    setSelectedDish(dish)
+    setIsOpen(true)
+    console.log(isOpen, selectedDish)
   }
 
-  onDishSelect = dish => {
-    this.setState({ selectedDish: dish, isOpen:true});
+  const closeModal = () => {
+    setSelectedDish(null)
+    setIsOpen(false)
   }
 
-  closeModal = () => {
-    this.setState({ selectedDish: null , isOpen:false});
-  }
-
-  render() {
-      document.title = 'Foods';
-      const menu = this.state.dishes.map(item => {
-      return <FoodMenuItem 
-                key={item.id} 
-                dish={item} 
-                dishSelect={() => this.onDishSelect(item)}
-              />
+  const menu = dishes.map(item => {
+    return <FoodMenuItem 
+            key={item.id} 
+            dish={item} 
+            dishSelect={() => onDishSelect(item)}
+          />
     }); 
 
     let dishDetail = null;
-    if(this.state.selectedDish != null) {
-      const comments = this.state.comments.filter(comment => {
-        return comment.dishId === this.state.selectedDish.id;
+
+    if(selectedDish != null) {
+      const selectedComments = comments.filter(comment => {
+        return comment.dishId === selectedDish.id;
       })
-      dishDetail = <DishDetail dish={this.state.selectedDish} comments={comments}/>
+      dishDetail = <DishDetail dish={selectedDish} comments={selectedComments}/>
     }
 
     return (
@@ -50,8 +52,7 @@ export default class FoodMenu extends Component {
         </div>
 
         {/* food details overlay modal */}
-        
-          <Dialog open={this.state.isOpen} as="div" className="relative z-10" onClose={this.closeModal}>
+        <Dialog open={isOpen} as="div" className="relative z-10" onClose={closeModal}>
             
             {/* makes background color black with opacity 25 */}
             <div className="fixed inset-0 bg-black bg-opacity-25" />
@@ -66,7 +67,7 @@ export default class FoodMenu extends Component {
                       <button
                         type="button"
                         className="inline-flex justify-center rounded-md  border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                        onClick={this.closeModal}
+                        onClick={closeModal}
                       >
                         Close
                       </button>
@@ -76,9 +77,10 @@ export default class FoodMenu extends Component {
               </div>
             </div>
           </Dialog>
-        {/* </Transition> */}
+          
+     
       </div>
-  );}
+  );
 }
 
-
+export default FoodMenu

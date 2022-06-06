@@ -14,12 +14,12 @@ function classNames(...classes) {
 function Body() {
   return <>
       <Routes classNames="h-screen">
-        {/* <Route path='/' exact element={<Home/>}/> */}
+        <Route path='/' exact element={<Home/>}/>
         <Route path='/menu' exact element={<FoodMenu/>}/>
         <Route path='/contact' exact element={<Contact/>}/>
         <Route path='/about' exact element={<About/>}/>
         <Route path='/reg' exact element={<Registration/>}/>
-        <Route path="/" element={<Navigate to="/menu" />} />
+        {/* <Route path="/" element={<Navigate to="/menu" />} /> */}
       </Routes>
           
   </>;
